@@ -13,6 +13,9 @@ class Supermarket:
                 return product
             return None
         
+    def get_name(self):
+        return self.name
+        
     def __str__(self):
         return f"Supermarket: {self.name}, Location: {self.location}"
     

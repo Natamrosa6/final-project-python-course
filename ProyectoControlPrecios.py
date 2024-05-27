@@ -17,32 +17,22 @@ def show_sorted_prices(product):
         for price in sorted_prices:
                 print(f"Date: {price['date']}, Price: {price['amount']}")
 
-def get_price_history(product):
-        dates = [price['date'] for price in product.prices]
-        amounts = [price['amount'] for price in product.prices]
-        return dates, amounts
+def plot_price_comparison(list_supermarkets, product_name):
+        supermarket_names = []
+        product_prices = []
 
-
-def plot_price_history(product):
-        dates, amounts = get_price_history(product)
-        plt.figure(figsize=(10,5))
-        plt.plot(dates, amounts, marker='o')
-        plt.title(f'Price History for {product.name}')
-        plt.xlabel('Date')
-        plt.ylabel('Price')
-        plt.grid(True)
-        plt.show()
-
-def plot_price_comparison(products):
-        supermarket_names = [product.name for product in products]
-        #lowest_prices = [min(product.prices, key= lambda x: x['amount'])['amount'] for product in products]
+        for supermarket in list_supermarkets:
+                supermarket_names.append(supermarket.get_name())
+                found_product = supermarket.get_product_by_name(product_name)
+                current_price_found_product = found_product.get_current_price()
+                product_prices.append(current_price_found_product['amount'])
 
         plt.figure(figsize=(10,5))
-        plt.bar(supermarket_names, lowest_prices)
+        #plt.bar(list(range(len(supermarket_names))), product_prices, data=supermarket_names)
+        plt.bar(supermarket_names, product_prices)
         plt.title('Price Comparison by Supermarket')
         plt.xlabel('Supermarket')
-        plt.ylabel('Lowest Price')
+        plt.ylabel(f'{product_name} Price')
         plt.xticks(rotation=45)
         plt.grid(True)
         plt.show()
-
